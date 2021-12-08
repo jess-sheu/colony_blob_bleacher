@@ -1,8 +1,8 @@
 import os
 import shared.dataframe as dat
 
-data_source = "/Users/xiaoweiyan/Dropbox/LAB/ValeLab/Projects/Blob_bleacher/Data/20210407_SG_frap/dataAnalysis/B4/"
-save_path = "/Users/xiaoweiyan/Dropbox/LAB/ValeLab/Projects/SG/Exp/20210410_exp_SGfrap/20210410_dataAnalysis_SGfrap/"
+data_source = "/Volumes/Extreme SSD/20211105/20211105_Speckles_5mW/data/dataAnalysis/E3/"
+save_path = "/Volumes/Extreme SSD/20211105/20211105_Speckles_5mW/dataFiles/"
 
 name = 'WT3'
 analyze_organelle = 'sg'  # only accepts 'sg' or 'nucleoli'

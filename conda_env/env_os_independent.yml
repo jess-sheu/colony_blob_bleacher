@@ -1,10 +1,12 @@
 name: blob_bleacher
 channels:
+  - conda-forge
   - defaults
+  - conda-forge/label/broken
 dependencies:
   - python=3.7
   - napari
-  - pyqt
+  - pyqt=5.12.3
   - jupyterlab
   - jupyter
-prefix: C:\Users\NicoLocal\anaconda3\envs\napari
+prefix: /Users/xwyan/opt/anaconda3/envs/napari

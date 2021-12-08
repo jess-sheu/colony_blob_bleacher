@@ -15,17 +15,17 @@ import os
 
 # Please changes
 # data_source folder ends with /
-master_folder = "D:/Xiaowei/data/20210607_screen/"
-multi_data_source = "D:/Xiaowei/data/20210607_screen/data/"
+master_folder = "/Volumes/Extreme SSD/20211106/20211106_100xtrial/20211106_WT_100x_FRAP/"
+multi_data_source = "/Volumes/Extreme SSD/20211106/20211106_100xtrial/20211106_WT_100x_FRAP/data/"
 save_name = 'dataAnalysis'
-analyze_organelle = 'nucleoli'  # only accepts 'sg' or 'nucleoli'
+analyze_organelle = 'sg'  # only accepts 'sg' or 'nucleoli'
 frap_start_delay = 4  # 50ms default = 4; 100ms default = 5; 200ms default = 6
-analysis_row = ['H']
+analysis_row = ['C']
 
 # values for analysis
 data_c = 0
 pos = 0
-num_dilation = 3  # number of dilation from the coordinate;
+num_dilation = 6  # number of dilation from the coordinate;
 # determines analysis size of the analysis spots; default = 3
 
 # modes

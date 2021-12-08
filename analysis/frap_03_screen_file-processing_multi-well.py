@@ -2,11 +2,11 @@ import os
 import shared.dataframe as dat
 from datetime import datetime
 
-master_folder = "D:/Xiaowei/data/20210607_screen/"
-multi_data_source = "D:/Xiaowei/data/20210607_screen/dataAnalysis/"
-save_source = "D:/Xiaowei/data/20210607_screen/dataFiles/"
+master_folder = "/Volumes/Extreme SSD/20211106/20211106_100xtrial/20211106_WT_100x_FRAP/"
+multi_data_source = "/Volumes/Extreme SSD/20211106/20211106_100xtrial/20211106_WT_100x_FRAP/dataAnalysis/"
+save_source = "/Volumes/Extreme SSD/20211106/20211106_100xtrial/20211106_WT_100x_FRAP//dataFiles/"
 
-analyze_organelle = 'nucleoli'  # only accepts 'sg' or 'nucleoli'
+analyze_organelle = 'sg'  # only accepts 'sg' or 'nucleoli'
 
 # log all the running info
 if not os.path.exists("%sscreen_processing_log.txt" % master_folder):

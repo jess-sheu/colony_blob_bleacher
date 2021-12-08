@@ -13,6 +13,7 @@ analyze_organelle = 'nucleoli'  # only accepts 'sg' or 'nucleoli'
 analysis_mode = 'single_exp'
 export_figure_mode = 'on'
 
+# Change below for different markers as needed
 inc = 5
 limit_frap = 250
 limit_organelle = 500

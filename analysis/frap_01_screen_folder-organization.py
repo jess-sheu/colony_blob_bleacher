@@ -3,8 +3,8 @@ import shutil
 from datetime import datetime
 
 # input parameters
-master_folder = "D:/Xiaowei/data/20210607_screen/"
-data_source = "D:/Xiaowei/data/20210607_screen/"
+master_folder = "/Volumes/Extreme SSD/20211106/20211106_100xtrial/20211106_C10_100x_FRAP2/"
+data_source = "/Volumes/Extreme SSD/20211106/20211106_100xtrial/20211106_C10_100x_FRAP2/"
 
 # log all the running info
 if not os.path.exists("%sscreen_processing_log.txt" % master_folder):
