@@ -475,11 +475,11 @@ def frap_filter(pointer_pd: pd.DataFrame, f: str):
     Filter FRAP curves
 
     filter frap curves:
-    1) number of pre_bleach frame < 5
-    2) total imaging length < 100
+    1) number of pre_bleach frame < 3 # 5
+    2) total imaging length < 50 # 100
     3) does not find optional fit (single exponential)
     4) mobile fraction < 0 or mobile fraction > 1.05
-    5) r2 of fit < 0.7
+    5) r2 of fit < 0.5 # 0.7
 
     :param pointer_pd: pd.DataFrame
     :param f: filter based on which function
@@ -491,12 +491,12 @@ def frap_filter(pointer_pd: pd.DataFrame, f: str):
     """
     frap_flt = []
     for i in range(len(pointer_pd)):
-        if (pointer_pd['bleach_frame'][i] < 5) \
-                | (pointer_pd['imaging_length'][i] < 100) \
+        if (pointer_pd['bleach_frame'][i] < 3) \
+                | (pointer_pd['imaging_length'][i] < 50) \
                 | (np.isnan(pointer_pd['%s_r2' % f][i])) \
                 | (pointer_pd['%s_mobile_fraction' % f][i] < 0) \
                 | (pointer_pd['%s_mobile_fraction' % f][i] >= 1.05) \
-                | (pointer_pd['%s_r2' % f][i] < 0.7):
+                | (pointer_pd['%s_r2' % f][i] < 0.5):
             frap_flt.append(0)
         else:
             frap_flt.append(1)
