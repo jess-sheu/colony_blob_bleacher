@@ -87,8 +87,8 @@ DISPLAYS
 # PARAMETERS allow change
 # --------------------------
 # Please changes
-data_path = "/Users/xiaoweiyan/Dropbox/LAB/ValeLab/Projects/Blob_bleacher/Data/20210504/D10-Site_1_1/"
-save_path = "/Users/xiaoweiyan/Dropbox/LAB/ValeLab/Projects/Blob_bleacher/Data/20210504/D10-Site_1_1/"
+data_path = "/Users/xwyan/Dropbox/LAB/ChangLab/Projects/Data/100xData_forXiaowei/Speckles_100x/20211109_H3/H3-Site_1_1/"
+save_path = "/Users/xwyan/Dropbox/LAB/ChangLab/Projects/Data/100xData_forXiaowei/test/Speckles_100x/20211109_H3/H3-Site_1_1/"
 analyze_organelle = 'nucleoli'  # only accepts 'sg' or 'nucleoli'
 frap_start_delay = 4  # 50ms default = 4; 100ms default = 5; 200ms default = 6
 display_mode = 'Y'  # only accepts 'N' or 'Y'
@@ -339,88 +339,89 @@ else:
 if display_mode == 'Y':
     print("### Output display ...")
 
-    with napari.gui_qt():
-        # embed mpl widget in napari viewer
-        mpl_widget = FigureCanvas(Figure(figsize=(5, 3)))
-        [ax1, ax2, ax3] = mpl_widget.figure.subplots(nrows=1, ncols=3)
-        viewer = napari.Viewer()
-        viewer.window.add_dock_widget(mpl_widget)
+    viewer = napari.Viewer()
+    # embed mpl widget in napari viewer
+    mpl_widget = FigureCanvas(Figure(figsize=(5, 3)))
+    [ax1, ax2, ax3] = mpl_widget.figure.subplots(nrows=1, ncols=3)
 
-        # napari display
-        # Layer1: data
-        # display time series movies in napari main viewer
-        mov = dis.napari_movie(store, cb)
-        viewer.add_image(mov, name='data')
+    viewer.window.add_dock_widget(mpl_widget)
 
-        if (analyze_organelle == 'nucleoli') & (np.amax(label_nuclear) > 0):
-            # Layer2: nuclear
-            # display labeled nuclei
-            cmap1 = 'winter'
-            cmap1_woBg = dis.num_color_colormap(cmap1, np.amax(label_nuclear))[0]
-            viewer.add_image(label_nuclear, name='nuclear', colormap=('winter woBg', cmap1_woBg))
+    # napari display
+    # Layer1: data
+    # display time series movies in napari main viewer
+    mov = dis.napari_movie(store, cb)
+    viewer.add_image(mov, name='data')
 
-        # Layer3: organelle
-        # display organelle mask (violet)
-        violet_woBg = Colormap([[0.0, 0.0, 0.0, 0.0], [129 / 255, 55 / 255, 114 / 255, 1.0]])
-        viewer.add_image(organelle, name=('%s' % analyze_organelle), contrast_limits=[0, 1],
-                         colormap=('violet woBg', violet_woBg))
+    if (analyze_organelle == 'nucleoli') & (np.amax(label_nuclear) > 0):
+        # Layer2: nuclear
+        # display labeled nuclei
+        cmap1 = 'winter'
+        cmap1_woBg = dis.num_color_colormap(cmap1, np.amax(label_nuclear))[0]
+        viewer.add_image(label_nuclear, name='nuclear', colormap=('winter woBg', cmap1_woBg))
 
-        # Layer3: aim points
-        # display aim points from .log file (red)
-        points = np.column_stack((log_pd['aim_y'].tolist(), log_pd['aim_x'].tolist()))
-        size = [3] * len(points)
-        viewer.add_points(points, name='aim points', size=size, edge_color='r', face_color='r')
+    # Layer3: organelle
+    # display organelle mask (violet)
+    violet_woBg = Colormap([[0.0, 0.0, 0.0, 0.0], [129 / 255, 55 / 255, 114 / 255, 1.0]])
+    viewer.add_image(organelle, name=('%s' % analyze_organelle), contrast_limits=[0, 1],
+                     colormap=('violet woBg', violet_woBg))
 
-        # Layer4: analysis spots
-        # display bleach spots, color sorted based on corresponding nucleoli size
-        # sort colormap based on analysis spots filtered
-        if len(pointer_pd) != 0:
-            cmap2 = 'winter'
-            cmap2_rgba = dis.num_color_colormap(cmap2, len(pointer_pd))[2]
-            if display_sort == 'na':
-                cmap2_napari = dis.num_color_colormap(cmap2, len(pointer_pd))[0]
-            else:
-                cmap2_napari = dis.sorted_num_color_colormap(cmap2_rgba, pointer_pd,
-                                                             '%s' % display_sort,
-                                                             'bleach_spots')[0]
-            viewer.add_image(label(bleach_spots), name='bleach spots', colormap=('winter woBg', cmap2_napari))
+    # Layer3: aim points
+    # display aim points from .log file (red)
+    points = np.column_stack((log_pd['aim_y'].tolist(), log_pd['aim_x'].tolist()))
+    size = [3] * len(points)
+    viewer.add_points(points, name='aim points', size=size, edge_color='r', face_color='r')
 
-        # matplotlib display
-        if len(ctrl_pd_ft) != 0:
-            if display_sort == 'na':
-                pointer_sort = pointer_pd
-            else:
-                # sorted based on feature (color coded)
-                # from small to large
-                pointer_sort = \
-                    pointer_pd.sort_values(by='%s' % display_sort).reset_index(drop=True)
+    # Layer4: analysis spots
+    # display bleach spots, color sorted based on corresponding nucleoli size
+    # sort colormap based on analysis spots filtered
+    if len(pointer_pd) != 0:
+        cmap2 = 'winter'
+        cmap2_rgba = dis.num_color_colormap(cmap2, len(pointer_pd))[2]
+        if display_sort == 'na':
+            cmap2_napari = dis.num_color_colormap(cmap2, len(pointer_pd))[0]
+        else:
+            cmap2_napari = dis.sorted_num_color_colormap(cmap2_rgba, pointer_pd,
+                                                         '%s' % display_sort,
+                                                         'bleach_spots')[0]
+        viewer.add_image(label(bleach_spots), name='bleach spots', colormap=('winter woBg', cmap2_napari))
 
-            # Plot-left: FRAP curves of filtered analysis spots after intensity correction (absolute intensity)
+    # matplotlib display
+    if len(ctrl_pd_ft) != 0:
+        if display_sort == 'na':
+            pointer_sort = pointer_pd
+        else:
+            # sorted based on feature (color coded)
+            # from small to large
+            pointer_sort = \
+                pointer_pd.sort_values(by='%s' % display_sort).reset_index(drop=True)
+
+        # Plot-left: FRAP curves of filtered analysis spots after intensity correction (absolute intensity)
+        for i in range(len(pointer_sort)):
+            ax1.plot(pointer_sort['mean_int'][i], color=cmap2_rgba[i + 1])
+        ax1.set_title('FRAP curves')
+        ax1.set_xlabel('time')
+        ax1.set_ylabel('intensity')
+
+        # Plot-middle: FRAP curves of filtered analysis spots after intensity correction
+        # relative intensity, bleach time zero aligned
+        for i in range(len(pointer_sort)):
+            if pointer_sort['frap_filter_%s' % fitting_mode][i] == 1:
+                ax2.plot(pointer_sort['real_time_post'][i], pointer_sort['int_curve_post_nor'][i],
+                         color=cmap2_rgba[i + 1], alpha=0.5)
+                ax2.plot(pointer_sort['real_time_post'][i], pointer_sort['%s_fit' % fitting_mode][i], '--',
+                         color=cmap2_rgba[i + 1])
+        ax2.set_title('FRAP curves')
+        ax2.set_xlabel('time (sec)')
+        ax2.set_ylabel('intensity')
+
+        # Plot-right: offset
+        if mode_bleach_detection == 'single-offset':
             for i in range(len(pointer_sort)):
-                ax1.plot(pointer_sort['mean_int'][i], color=cmap2_rgba[i + 1])
-            ax1.set_title('FRAP curves')
-            ax1.set_xlabel('time')
-            ax1.set_ylabel('intensity')
-
-            # Plot-middle: FRAP curves of filtered analysis spots after intensity correction
-            # relative intensity, bleach time zero aligned
-            for i in range(len(pointer_sort)):
-                if pointer_sort['frap_filter_%s' % fitting_mode][i] == 1:
-                    ax2.plot(pointer_sort['real_time_post'][i], pointer_sort['int_curve_post_nor'][i],
-                             color=cmap2_rgba[i + 1], alpha=0.5)
-                    ax2.plot(pointer_sort['real_time_post'][i], pointer_sort['%s_fit' % fitting_mode][i], '--',
-                             color=cmap2_rgba[i + 1])
-            ax2.set_title('FRAP curves')
-            ax2.set_xlabel('time (sec)')
-            ax2.set_ylabel('intensity')
-
-            # Plot-right: offset
-            if mode_bleach_detection == 'single-offset':
-                for i in range(len(pointer_sort)):
-                    ax3.plot([0, pointer_sort['x_diff'][i]], [0, pointer_sort['y_diff'][i]],
-                             color=cmap2_rgba[i + 1])
-                ax3.set_xlim([-10, 10])
-                ax3.set_ylim([-10, 10])
-                ax3.set_title('Offset map')
-                ax3.set_xlabel('x offset')
-                ax3.set_ylabel('y offset')
+                ax3.plot([0, pointer_sort['x_diff'][i]], [0, pointer_sort['y_diff'][i]],
+                         color=cmap2_rgba[i + 1])
+            ax3.set_xlim([-10, 10])
+            ax3.set_ylim([-10, 10])
+            ax3.set_title('Offset map')
+            ax3.set_xlabel('x offset')
+            ax3.set_ylabel('y offset')
+    napari.run()
