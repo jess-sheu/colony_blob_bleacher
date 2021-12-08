@@ -45,6 +45,10 @@ List related:
     select_multiple
         FUNCTION: select multiple points from corresponding x,y coordinate lists
         SYNTAX:   select_multiple(x_lst: list, y_lst: list, num)
+    
+    str_to_float
+        FUNCTION: transform a string into a list of floats
+        SYNTAX:   str_to_float(string: str)
 
 uManager related:
 
@@ -79,6 +83,11 @@ Number related:
     find_closest
         FUNCTION: find closest spot
         SYNTAX:   find_closest(aim_x: int or float, aim_y: int or float, x_list: list, y_list: list)
+    
+    find_closest_coordinate:
+        FUNCTION: find closest spot within a certain distance from a list of tuples, otherwise return 
+                  the original aim spot
+        SYNTAX:   find_closest_coordinate(aim: tuple, xy_list: list, dis: float)
 
 File related:
     
@@ -273,6 +282,22 @@ def select_multiple(x_lst: list, y_lst: list, num):
         out_x.append(x_lst[rand_idx[i]])
     return out_x, out_y
 
+
+def str_to_float(string: str):
+    """
+    Transform a string into a list of floats
+
+    Examples:
+    input string: (24 characters)
+    [5.55, 6.53, 7.35, 8.91]
+    output list: (4 elements)
+    [5.55, 6.53, 7.35, 8.91]
+    :param string: str, string to be converted
+    :return: out: list
+    """
+    out = [float(i) for i in string[1:-1].split(', ')]
+    return out
+
 # ---------------------------------------------------------------------------------------------------
 # FUNCTIONS for UMANAGER
 # ---------------------------------------------------------------------------------------------------
@@ -454,6 +479,24 @@ def find_closest(aim_x: int or float, aim_y: int or float, x_list: list, y_list:
             y_closest = y_temp
 
     return x_closest, y_closest
+
+
+def find_closest_coordinate(aim: tuple, xy_list: list, dis: float):
+    """
+    Find closest spot within a certain distance from a list of tuples, otherwise return the original aim spot
+
+    :param aim: tuple, aim spot
+    :param xy_list: list, list of tuples
+    :param dis: float, find closest spot less than given dis, set it as a large enough number to find the closest spot
+    :return:
+    """
+    out = aim
+    for i in range(len(xy_list)):
+        dis_temp = (xy_list[i][0] - aim[0])**2 + (xy_list[i][1] - aim[1])**2
+        if dis_temp < dis:
+            dis = dis_temp
+            out = xy_list[i]
+    return out
 
 
 # ---------------------------------------------------------------------------------------------------
