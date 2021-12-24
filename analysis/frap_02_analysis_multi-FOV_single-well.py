@@ -14,16 +14,16 @@ import os
 
 # Please changes
 # data_source folder ends with /
-data_source = "/Volumes/Extreme SSD/20211105/20211105_Speckles_5mW/data/E3/"#\
-            #    "WT_random/"
+data_source = "D:/Xiaowei/data/20210319_CBB_nucleoliFRAPexposureIntensityAndNonCentroidPhotobleachingTest/"\
+                 "WT_random/"
 save_name = 'dataAnalysis'
-analyze_organelle = 'sg'  # only accepts 'sg' or 'nucleoli'
+analyze_organelle = 'nucleoli'  # only accepts 'sg' or 'nucleoli'
 frap_start_delay = 4  # 50ms default = 4; 100ms default = 5; 200ms default = 6
 
 # values for analysis
 data_c = 0
 pos = 0
-num_dilation = 6  # number of dilation from the coordinate;
+num_dilation = 3  # number of dilation from the coordinate;
 # determines analysis size of the analysis spots; default = 3
 
 # presets

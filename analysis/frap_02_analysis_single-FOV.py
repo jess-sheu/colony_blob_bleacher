@@ -87,8 +87,8 @@ DISPLAYS
 # PARAMETERS allow change
 # --------------------------
 # Please changes
-data_path = "/Users/jess_sheu/Documents/20211008_1hrSGsAs200uM_FRAPtest_Hela/data/E2/E2-Site_4_1/"
-save_path = "/Users/jess_sheu/Documents/20211008_1hrSGsAs200uM_FRAPtest_Hela/data/E2/E2-Site_4_1/"
+data_path = "/Users/xwyan/Dropbox/LAB/ChangLab/Projects/Data/100xData_forXiaowei/Speckles_100x/20211109_H3/H3-Site_1_1/"
+save_path = "/Users/xwyan/Dropbox/LAB/ChangLab/Projects/Data/100xData_forXiaowei/test/Speckles_100x/20211109_H3/H3-Site_1_1/"
 analyze_organelle = 'nucleoli'  # only accepts 'sg' or 'nucleoli'
 frap_start_delay = 4  # 50ms default = 4; 100ms default = 5; 200ms default = 6
 display_mode = 'Y'  # only accepts 'N' or 'Y'
